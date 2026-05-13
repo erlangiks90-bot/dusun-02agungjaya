@@ -1,0 +1,47 @@
+<h1>ADMIN PANEL</h1>
+
+<input id="nama" placeholder="Nama Barang">
+<input id="harga" placeholder="Harga">
+<input id="stok" placeholder="Stok">
+
+<button onclick="add()">Tambah</button>
+
+<ul id="list"></ul>
+
+<script>
+function load() {
+    fetch("/produk")
+    .then(r => r.json())
+    .then(data => {
+        let list = document.getElementById("list");
+        list.innerHTML = "";
+
+        data.forEach(p => {
+            list.innerHTML += `
+                <li>
+                    ${p.nama} - Rp ${p.harga} - Stok ${p.stok}
+                    <button onclick="hapus(${p.id})">Hapus</button>
+                </li>
+            `;
+        });
+    });
+}
+
+function add() {
+    fetch("/produk", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({
+            nama: nama.value,
+            harga: harga.value,
+            stok: stok.value
+        })
+    }).then(load);
+}
+
+function hapus(id) {
+    fetch("/produk/" + id, { method: "DELETE" }).then(load);
+}
+
+load();
+</script>

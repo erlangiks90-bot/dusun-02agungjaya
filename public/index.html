@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Login Kasir Erlang Tecno</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:#f2f2f2;
+}
+
+.box{
+    width:300px;
+    background:white;
+    margin:100px auto;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+
+input{
+    width:95%;
+    padding:10px;
+    margin-top:10px;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border:none;
+    background:#1565c0;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0d47a1;
+}
+
+.msg{
+    color:red;
+    margin-top:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>🔐 LOGIN KASIR</h2>
+
+<input type="text" id="username" placeholder="Username">
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()">LOGIN</button>
+
+<div class="msg" id="msg"></div>
+
+</div>
+
+<script>
+
+async function login(){
+
+    let username =
+        document.getElementById("username").value;
+
+    let password =
+        document.getElementById("password").value;
+
+    let res = await fetch("/login", {
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+            username,
+            password
+        })
+
+    });
+
+    let data = await res.json();
+
+    if(data.success){
+
+        if(data.role === "admin"){
+
+            window.location.href = "admin.html";
+
+        }else{
+
+            window.location.href = "kasir.html";
+
+        }
+
+    }else{
+
+        document.getElementById("msg")
+        .innerText = "Login gagal!";
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

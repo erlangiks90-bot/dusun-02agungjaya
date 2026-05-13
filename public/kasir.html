@@ -1,0 +1,48 @@
+<h1>KASIR MODE</h1>
+
+<ul id="produk"></ul>
+
+<h3>Total: <span id="total">0</span></h3>
+
+<input id="bayar" placeholder="Uang Bayar">
+<button onclick="bayar()">Bayar</button>
+
+<script>
+let cart = [];
+
+fetch("/produk")
+.then(r => r.json())
+.then(data => {
+    let el = document.getElementById("produk");
+
+    data.forEach(p => {
+        el.innerHTML += `
+        <li>
+            ${p.nama} - Rp ${p.harga}
+            <button onclick="add('${p.nama}', ${p.harga})">+</button>
+        </li>`;
+    });
+});
+
+function add(nama, harga) {
+    cart.push({nama, harga});
+    document.getElementById("total").innerText =
+        cart.reduce((a,b)=>a+b.harga,0);
+}
+
+function bayar() {
+    let total = cart.reduce((a,b)=>a+b.harga,0);
+    let bayar = Number(document.getElementById("bayar").value);
+    let kembali = bayar - total;
+
+    alert("Kembali: " + kembali);
+
+    fetch("/transaksi", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ cart, total, bayar, kembali })
+    });
+
+    cart = [];
+}
+</script>
