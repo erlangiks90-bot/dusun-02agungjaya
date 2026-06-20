@@ -1,0 +1,21 @@
+{
+  "name": "sidus-railway-supabase",
+  "version": "1.0.0",
+  "description": "SIDUS - Sistem Informasi Dusun untuk Railway + Supabase",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "latest",
+    "bcryptjs": "latest",
+    "cors": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "jsonwebtoken": "latest"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
