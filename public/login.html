@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Login SIDUS</title><link rel="stylesheet" href="/css/style.css"></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Login SIDUS</title><link rel="stylesheet" href="/css/style.css"><link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0b6b3a">
+</head>
 <body class="login-page">
   <div class="login-card">
     <div class="login-logo">🏛️</div><h1>Login SIDUS</h1><p>Dusun 02 Desa Agung Jaya</p>
@@ -9,5 +11,7 @@
     <label>Password</label><input id="password" type="password" placeholder="Masukkan password">
     <button class="btn full" onclick="login()">Masuk</button><p id="msg" class="msg"></p><a href="/" class="back-link">← Kembali ke Beranda</a>
   </div>
+<script src="/js/offline-db.js"></script>
 <script src="/js/login.js"></script>
+<script src="/js/register-sw.js" id="register-sw"></script>
 </body></html>

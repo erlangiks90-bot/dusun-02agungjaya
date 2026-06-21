@@ -65,3 +65,28 @@ npm start
 
 Catatan:
 Upload v4 masih tersimpan di folder uploads Railway. Jika Railway redeploy, file lokal bisa hilang. Untuk produksi final, pindahkan upload ke Supabase Storage.
+
+
+## Upgrade v8 REAL - Hybrid Offline + Online
+
+Ini bukan dokumen saja. File nyata yang ditambahkan:
+- public/manifest.json
+- public/service-worker.js
+- public/js/offline-db.js
+- public/js/register-sw.js
+- icon PWA
+- cache offline halaman utama, login, app, CSS, JS
+- IndexedDB lokal untuk warga, kk, surat, pengaduan, pengumuman, galeri, iuran
+- sync_queue untuk data yang disimpan saat offline
+- status Online/Offline/Sinkron di header aplikasi
+
+Cara kerja:
+- GET data akan disimpan ke IndexedDB.
+- Jika offline, tabel tetap menampilkan cache IndexedDB.
+- POST saat offline masuk antrean sync_queue.
+- Saat online kembali, syncQueue mencoba mengirim ulang.
+
+Catatan:
+- Offline login bisa dipakai jika akun pernah login di perangkat itu.
+- Upload foto besar tetap lebih aman saat online.
+- Supabase Storage final masih perlu dipindahkan dari upload lokal.

@@ -4,3 +4,8 @@
 .gallery-item.foto img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .gallery-item.foto span{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.55);color:white;padding:6px 8px;border-radius:8px;font-size:12px}
 .gallery-item.foto button{position:absolute;right:8px;top:8px;z-index:2}
+
+.status-wrap{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.online-badge{font-size:12px;padding:7px 9px;border-radius:999px;background:#eef2f7;color:#172033;font-weight:bold}
+.online-badge.online{background:#dcfce7;color:#166534}
+.online-badge.offline{background:#fee2e2;color:#991b1b}

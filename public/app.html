@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SIDUS App</title><link rel="stylesheet" href="/css/style.css"></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>SIDUS App</title><link rel="stylesheet" href="/css/style.css"><link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0b6b3a">
+</head>
 <body>
-<header class="app-header"><div><h1 id="pageTitle">SIDUS</h1><p id="userInfo">Memuat...</p></div><button class="btn danger" onclick="logout()">Keluar</button></header>
+<header class="app-header"><div><h1 id="pageTitle">SIDUS</h1><p id="userInfo">Memuat...</p></div><div class="status-wrap"><span id="onlineStatus" class="online-badge">...</span><span id="syncStatus" class="online-badge">...</span></div><button class="btn danger" onclick="logout()">Keluar</button></header>
 <main class="app-container"><section id="content"></section></main>
+<script src="/js/offline-db.js"></script>
 <script src="/js/app-pages.js"></script>
+<script src="/js/register-sw.js" id="register-sw"></script>
 </body></html>
