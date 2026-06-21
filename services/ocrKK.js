@@ -1,7 +1,11 @@
 const Tesseract = require('tesseract.js');
 
 function cleanLine(s) {
-  return (s || '').replace(/\s+/g, ' ').replace(/[|]/g, '').trim();
+  return (s || '')
+    .replace(/[|]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .replace(/^\d+\s+/, '')
+    .trim();
 }
 
 function normalizeDate(text) {
@@ -13,55 +17,56 @@ function normalizeDate(text) {
   return `${m[3]}-${mo}-${d}`;
 }
 
+function parseGender(s){
+  if(/LAKI|L\b/i.test(s)) return 'Laki-laki';
+  if(/PEREMPUAN| P /i.test(' '+s+' ')) return 'Perempuan';
+  return '';
+}
+
 function parseKKText(rawText) {
   const lines = rawText.split(/\r?\n/).map(cleanLine).filter(Boolean);
   const joined = lines.join('\n');
 
   let no_kk = '';
-  const kkMatch = joined.match(/(?:NO\.?\s*KK|NOMOR\s*KK|KARTU\s*KELUARGA)?\s*[:\-]?\s*(\d{16})/i);
-  if (kkMatch) no_kk = kkMatch[1];
+  const kkMatches = [...joined.matchAll(/\b(\d{16})\b/g)].map(m=>m[1]);
+  if (kkMatches.length) no_kk = kkMatches[0];
 
   let alamat = '';
   const alamatLine = lines.find(l => /^ALAMAT/i.test(l));
   if (alamatLine) alamat = alamatLine.replace(/^ALAMAT\s*[:\-]?\s*/i, '');
 
   let rt = '';
-  const rtMatch = joined.match(/RT\s*[:\/]?\s*(\d{1,3})/i);
+  const rtMatch = joined.match(/RT\s*[:\/\s]?\s*(\d{1,3})/i);
   if (rtMatch) rt = rtMatch[1].padStart(2, '0');
 
   const anggota = [];
-  const nikRegex = /(\d{16})/g;
-  let match;
-  const nikPositions = [];
-  while ((match = nikRegex.exec(joined)) !== null) {
-    const nik = match[1];
-    if (nik !== no_kk) nikPositions.push({ nik, index: match.index });
-  }
+  for (let i=1; i<kkMatches.length; i++){
+    const nik = kkMatches[i];
+    const idx = joined.indexOf(nik);
+    const around = joined.slice(Math.max(0,idx-160), Math.min(joined.length,idx+260)).replace(/\n/g,' ');
+    const before = joined.slice(Math.max(0,idx-120), idx).replace(/\n/g,' ');
+    let nama = before
+      .replace(/\b(NO|NIK|NAMA|JENIS|KELAMIN|TEMPAT|LAHIR|AGAMA|PENDIDIKAN|PEKERJAAN)\b/ig,' ')
+      .replace(/\d+/g,' ')
+      .replace(/\s+/g,' ')
+      .trim()
+      .split(' ')
+      .slice(-4)
+      .join(' ');
+    if(nama.length < 3) nama = '';
 
-  for (const item of nikPositions) {
-    const before = joined.slice(Math.max(0, item.index - 120), item.index);
-    const after = joined.slice(item.index, Math.min(joined.length, item.index + 220));
-    const nearby = (before + ' ' + after).replace(/\n/g, ' ');
-
-    let nama = '';
-    const wordsBefore = before.split(/\s+/).filter(Boolean);
-    const candidate = wordsBefore.slice(-5).join(' ');
-    if (candidate && !/\d/.test(candidate)) nama = candidate;
-
-    const jk = /LAKI/i.test(nearby) ? 'Laki-laki' : /PEREMPUAN/i.test(nearby) ? 'Perempuan' : '';
-    const tanggal_lahir = normalizeDate(nearby);
-
+    const tanggal_lahir = normalizeDate(around);
     anggota.push({
-      nik: item.nik,
+      nik,
       nama,
-      jenis_kelamin: jk,
+      jenis_kelamin: parseGender(around),
       tempat_lahir: '',
       tanggal_lahir,
       agama: '',
       pendidikan: '',
       pekerjaan: '',
       status_perkawinan: '',
-      hubungan_keluarga: '',
+      hubungan_keluarga: i===1 ? 'Kepala Keluarga' : '',
       kewarganegaraan: 'WNI'
     });
   }

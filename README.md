@@ -124,3 +124,30 @@ Fokus:
 
 Catatan:
 OCR KK dari foto asli bisa tidak 100% akurat, jadi sistem sengaja menampilkan preview untuk dikoreksi dulu sebelum simpan.
+
+
+## Upgrade v10 REAL
+
+Perbaikan nyata:
+- Backend `routes/warga.js` dikunci:
+  - RT hanya melihat dan mengubah data RT miliknya.
+  - Kadus bisa semua.
+  - Masyarakat hanya data sendiri.
+- Form RT otomatis RT login, tidak bisa pilih RT lain.
+- Data warga lebih lengkap:
+  tempat lahir, tanggal lahir, umur otomatis, agama, pendidikan, pekerjaan,
+  status perkawinan, hubungan keluarga, golongan darah, no HP.
+- Tambah route `routes/kk.js` untuk menyimpan data KK.
+- OCR KK:
+  - Scan foto KK dengan tesseract.js.
+  - Preview hasil OCR.
+  - Semua field bisa diedit dulu.
+  - Simpan KK.
+  - Simpan anggota otomatis ke tabel warga.
+  - Jika NIK sudah ada, update data.
+- Tabel warga menampilkan umur otomatis.
+- Statistik warga cepat:
+  warga, KK, laki/perempuan, balita/lansia.
+
+Catatan:
+OCR foto KK sangat tergantung kualitas foto. Sistem sengaja wajib preview dan edit sebelum simpan.

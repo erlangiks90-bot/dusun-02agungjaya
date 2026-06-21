@@ -163,3 +163,11 @@ create table if not exists file_uploads (
   uploaded_by text,
   created_at timestamptz default now()
 );
+
+
+alter table if exists warga add column if not exists golongan_darah text;
+alter table if exists warga add column if not exists agama text;
+alter table if exists warga add column if not exists pendidikan text;
+alter table if exists warga add column if not exists status_perkawinan text;
+alter table if exists warga add column if not exists hubungan_keluarga text;
+alter table if exists warga add column if not exists no_hp text;

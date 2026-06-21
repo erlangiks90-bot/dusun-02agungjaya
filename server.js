@@ -24,6 +24,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/profil', require('./routes/profil'));
 app.use('/api/rt', require('./routes/rt'));
 app.use('/api/warga', require('./routes/warga'));
+app.use('/api/kk', require('./routes/kk'));
 app.use('/api/iuran', require('./routes/iuran'));
 app.use('/api/pengaduan', require('./routes/pengaduan'));
 app.use('/api/surat', require('./routes/surat'));
