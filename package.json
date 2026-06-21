@@ -1,19 +1,23 @@
 {
-  "name": "sidus-railway-supabase",
+  "name": "sidus-dusun02-agungjaya",
   "version": "1.0.0",
-  "description": "SIDUS - Sistem Informasi Dusun untuk Railway + Supabase",
+  "description": "SIDUS - Sistem Informasi Dusun 02 Desa Agung Jaya",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "latest",
-    "bcryptjs": "latest",
-    "cors": "latest",
-    "dotenv": "latest",
-    "express": "latest",
-    "jsonwebtoken": "latest"
+    "@supabase/supabase-js": "^2.45.4",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "express-session": "^1.18.0",
+    "qrcode": "^1.5.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   },
   "engines": {
     "node": ">=18"

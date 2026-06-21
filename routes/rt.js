@@ -1,0 +1,4 @@
+const express=require('express');const router=express.Router();const supabase=require('../services/supabase');const{requireRole}=require('../middleware/auth');
+const defaultRt=[{nomor_rt:'06',nama_ketua:'Ketua RT 06',no_hp:'',aktif:true},{nomor_rt:'07',nama_ketua:'Ketua RT 07',no_hp:'',aktif:true},{nomor_rt:'08',nama_ketua:'Ketua RT 08',no_hp:'',aktif:true}];
+router.get('/',async(req,res)=>{try{const{data,error}=await supabase.from('rt').select('*').order('nomor_rt');if(error)throw error;res.json(data&&data.length?data:defaultRt)}catch{res.json(defaultRt)}});
+router.post('/',requireRole('kadus'),async(req,res)=>{const{nomor_rt,nama_ketua,no_hp}=req.body;const{data,error}=await supabase.from('rt').insert({nomor_rt,nama_ketua,no_hp,aktif:true}).select().single();if(error)return res.status(500).json({error:error.message});res.json(data)});module.exports=router;
