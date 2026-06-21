@@ -30,6 +30,15 @@ app.use('/api/surat', require('./routes/surat'));
 app.use('/api/pengumuman', require('./routes/pengumuman'));
 app.use('/api/galeri', require('./routes/galeri'));
 app.use('/api/upload', require('./routes/upload'));
+app.use('/api/ocr', require('./routes/ocr'));
+
+
+app.get('/fast/kadus', (req,res) => res.sendFile(path.join(__dirname,'public/dashboard-kadus.html')));
+app.get('/fast/rt', (req,res) => res.sendFile(path.join(__dirname,'public/dashboard-rt.html')));
+app.get('/fast/masyarakat', (req,res) => res.sendFile(path.join(__dirname,'public/dashboard-masyarakat.html')));
+app.get('/fast/warga', (req,res) => res.sendFile(path.join(__dirname,'public/warga.html')));
+app.get('/fast/kk', (req,res) => res.sendFile(path.join(__dirname,'public/kk.html')));
+app.get('/fast/surat', (req,res) => res.sendFile(path.join(__dirname,'public/surat.html')));
 
 app.get('/health', (req, res) => res.json({ ok: true, app: 'SIDUS Dusun 02 Upgrade v2' }));
 

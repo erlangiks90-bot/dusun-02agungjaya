@@ -4,18 +4,18 @@ async function login(){
   try{
     const data=await api('/api/auth/login',{method:'POST',body:JSON.stringify({role:role.value,username:username.value.trim(),password:password.value})});
     if(window.SIDUS_OFFLINE) await SIDUS_OFFLINE.dbPut('session',{_id:1,user:data.user,username:username.value.trim(),role:role.value});
-    if(data.user.role==='kadus')location.href='/dashboard-kadus';
-    else if(data.user.role==='rt')location.href='/dashboard-rt';
-    else location.href='/dashboard-masyarakat';
+    if(data.user.role==='kadus')location.href='/fast/kadus';
+    else if(data.user.role==='rt')location.href='/fast/rt';
+    else location.href='/fast/masyarakat';
   }catch(e){
     if(!navigator.onLine && window.SIDUS_OFFLINE){
       const sessions = await SIDUS_OFFLINE.dbGetAll('session').catch(()=>[]);
       const s = sessions.find(x=>x._id===1 && x.username===username.value.trim() && x.role===role.value);
       if(s && s.user){
         localStorage.setItem('sidus_offline_user', JSON.stringify(s.user));
-        if(s.user.role==='kadus')location.href='/dashboard-kadus';
-        else if(s.user.role==='rt')location.href='/dashboard-rt';
-        else location.href='/dashboard-masyarakat';
+        if(s.user.role==='kadus')location.href='/fast/kadus';
+        else if(s.user.role==='rt')location.href='/fast/rt';
+        else location.href='/fast/masyarakat';
         return;
       }
     }

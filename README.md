@@ -90,3 +90,37 @@ Catatan:
 - Offline login bisa dipakai jika akun pernah login di perangkat itu.
 - Upload foto besar tetap lebih aman saat online.
 - Supabase Storage final masih perlu dipindahkan dari upload lokal.
+
+
+## Upgrade v9 FAST + OCR KK
+
+Fokus:
+- Membuat aplikasi lebih cepat seperti Tecno POS.
+- Halaman dipisah:
+  /fast/kadus
+  /fast/rt
+  /fast/masyarakat
+  /fast/warga
+  /fast/kk
+  /fast/surat
+- Tidak lagi memuat satu app besar untuk semua modul.
+- JS dipisah:
+  fast-common.js
+  warga-fast.js
+  ocr-kk.js
+- OCR KK nyata memakai tesseract.js:
+  route: POST /api/ocr/kk
+  service: services/ocrKK.js
+- Upload/scanner KK:
+  input file menggunakan capture="environment"
+- Hasil OCR masuk preview form.
+- Data OCR bisa diedit sebelum disimpan.
+- Setelah klik Simpan ke Data Warga, anggota KK masuk ke tabel warga.
+- Umur otomatis dihitung dari tanggal lahir pada tampilan warga.
+- Akun RT otomatis wilayahnya sendiri:
+  RT 06 hanya RT 06
+  RT 07 hanya RT 07
+  RT 08 hanya RT 08
+
+Catatan:
+OCR KK dari foto asli bisa tidak 100% akurat, jadi sistem sengaja menampilkan preview untuk dikoreksi dulu sebelum simpan.
