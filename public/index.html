@@ -1,1 +1,66 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SIDUS Dusun 02 Desa Agung Jaya</title><link rel="stylesheet" href="/css/style.css"></head><body><header class="header"><div class="brand"><div class="logo">🏛️</div><div><h1>SIDUS</h1><p>Sistem Informasi Dusun 02 Desa Agung Jaya</p></div></div><a class="btn ghost" href="/login.html">Login</a></header><div class="marquee"><span id="running">Selamat datang di Website Resmi Dusun 02 Desa Agung Jaya Kecamatan Lalan Kabupaten Musi Banyuasin.</span></div><main class="container"><section class="hero"><h2>Dusun 02 Desa Agung Jaya</h2><p>Kecamatan Lalan, Kabupaten Musi Banyuasin, Sumatera Selatan</p><div class="hero-actions"><a href="/login.html" class="btn">Masuk Aplikasi</a><a href="#pengaduan" class="btn secondary">Pengaduan Masyarakat</a></div></section><section class="grid stats"><div class="card"><b id="penduduk">110</b><span>Jumlah Penduduk</span></div><div class="card"><b id="kk">35</b><span>Jumlah KK</span></div><div class="card"><b>3</b><span>RT Aktif</span></div><div class="card"><b>06, 07, 08</b><span>Wilayah RT</span></div></section><section class="panel"><h3>Profil Dusun</h3><p>Website ini digunakan untuk profil dusun, data warga, iuran, surat pengantar, pengaduan masyarakat, dan laporan administrasi Dusun 02.</p></section><section id="pengaduan" class="panel"><h3>Pengaduan Masyarakat</h3><div class="form"><input id="adu_nama" placeholder="Nama"><input id="adu_hp" placeholder="No HP"><select id="adu_rt"><option value="06">RT 06</option><option value="07">RT 07</option><option value="08">RT 08</option></select><input id="adu_judul" placeholder="Judul pengaduan"><textarea id="adu_isi" placeholder="Isi pengaduan"></textarea><button class="btn" onclick="kirimPengaduanPublik()">Kirim Pengaduan</button></div></section></main><footer class="footer">Pemerintah Dusun 02 Desa Agung Jaya<br>Kecamatan Lalan, Kabupaten Musi Banyuasin, Sumatera Selatan</footer><script src="/js/app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>SIDUS - Dusun 02 Desa Agung Jaya</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header class="top-header">
+  <div class="brand"><div class="logo">🏛️</div><div><h1>SIDUS</h1><p>Sistem Informasi Dusun</p></div></div>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
+  <nav id="navMenu" class="nav-menu">
+    <a href="#beranda">Beranda</a><a href="#profil">Profil</a><a href="#statistik">Statistik</a>
+    <a href="#pengumuman">Pengumuman</a><a href="#galeri">Galeri</a><a href="#pengaduan">Pengaduan</a><a href="#kontak">Kontak</a>
+    <a href="/login.html" class="login-link">Login</a>
+  </nav>
+</header>
+<div class="running-text"><span id="runningText">Selamat datang di Website Resmi Dusun 02 Desa Agung Jaya Kecamatan Lalan Kabupaten Musi Banyuasin.</span></div>
+<main>
+  <section id="beranda" class="hero">
+    <div class="hero-overlay">
+      <h2>Dusun 02 Desa Agung Jaya</h2>
+      <p>Kecamatan Lalan, Kabupaten Musi Banyuasin, Sumatera Selatan</p>
+      <p class="kadus">Kepala Dusun: <b id="namaKadus">Erlang Saputra</b></p>
+      <div class="hero-buttons"><a href="/login.html" class="btn">Masuk Aplikasi</a><a href="#pengaduan" class="btn secondary">Pengaduan Masyarakat</a></div>
+    </div>
+  </section>
+  <section id="statistik" class="section">
+    <h2>Statistik Singkat</h2>
+    <div class="stats-grid">
+      <div class="stat-card"><span>👥</span><h3>Jumlah Penduduk</h3><b id="jmlPenduduk">110 Jiwa</b></div>
+      <div class="stat-card"><span>🏠</span><h3>Jumlah KK</h3><b id="jmlKK">35 KK</b></div>
+      <div class="stat-card"><span>🧭</span><h3>RT Aktif</h3><b>RT 06, 07, 08</b></div>
+      <div class="stat-card"><span>🌾</span><h3>Luas Wilayah</h3><b id="luasWilayah">Belum Diisi</b></div>
+    </div>
+  </section>
+  <section id="profil" class="section two-col">
+    <div class="panel">
+      <h2>Profil Dusun</h2>
+      <p>SIDUS digunakan untuk profil dusun, data warga, iuran, surat pengantar, pengaduan masyarakat, dan laporan administrasi Dusun 02.</p>
+      <ul class="info-list"><li><b>Dusun:</b> Dusun 02</li><li><b>Desa:</b> Agung Jaya</li><li><b>Kecamatan:</b> Lalan</li><li><b>Kabupaten:</b> Musi Banyuasin</li><li><b>Provinsi:</b> Sumatera Selatan</li></ul>
+    </div>
+    <div class="profile-box"><h3>Wilayah RT Aktif</h3><div class="rt-list"><div>RT 06</div><div>RT 07</div><div>RT 08</div></div></div>
+  </section>
+  <section id="pengumuman" class="section">
+    <h2>Pengumuman</h2>
+    <div class="cards" id="pengumumanList">
+      <article class="card"><h3>Memuat...</h3><p>Pengumuman sedang dimuat.</p></article>
+    </div>
+  </section>
+  <section id="galeri" class="section">
+    <h2>Galeri Dusun</h2>
+    <div class="gallery" id="galeriList">
+      <div class="gallery-item">Foto Kegiatan</div>
+      <div class="gallery-item">Foto Pembangunan</div>
+      <div class="gallery-item">Foto Musyawarah</div>
+      <div class="gallery-item">Foto Gotong Royong</div>
+    </div>
+  </section>
+  <section id="pengaduan" class="section"><h2>Pengaduan Masyarakat</h2><div class="form-card"><input id="aduNama" placeholder="Nama"><input id="aduHp" placeholder="No HP"><select id="aduRt"><option value="06">RT 06</option><option value="07">RT 07</option><option value="08">RT 08</option></select><input id="aduJudul" placeholder="Judul Pengaduan"><textarea id="aduIsi" placeholder="Isi pengaduan"></textarea><input type="file" accept="image/*"><button class="btn" onclick="kirimPengaduan()">Kirim Pengaduan</button></div></section>
+  <section id="kontak" class="section contact"><h2>Kontak</h2><p><b>Pemerintah Dusun 02 Desa Agung Jaya</b></p><p>Kecamatan Lalan, Kabupaten Musi Banyuasin, Sumatera Selatan</p><p>Kepala Dusun: Erlang Saputra</p></section>
+</main>
+<footer><p>Pemerintah Dusun 02 Desa Agung Jaya</p><p>Kecamatan Lalan, Kabupaten Musi Banyuasin, Sumatera Selatan</p><p>© 2026 SIDUS - Sistem Informasi Dusun</p></footer>
+<script src="/js/public.js"></script>
+</body>
+</html>

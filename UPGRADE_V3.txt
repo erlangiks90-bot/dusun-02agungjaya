@@ -1,0 +1,8 @@
+SIDUS Upgrade v3
+1. OCR KK siap integrasi
+2. Galeri dusun
+3. Pengumuman dusun
+4. Dashboard statistik
+5. Upload foto warga/KTP/KK
+6. Persiapan PDF surat
+7. Persiapan export Excel
