@@ -41,6 +41,8 @@ app.get('/fast/warga', (req,res) => res.sendFile(path.join(__dirname,'public/war
 app.get('/fast/kk', (req,res) => res.sendFile(path.join(__dirname,'public/kk.html')));
 app.get('/fast/surat', (req,res) => res.sendFile(path.join(__dirname,'public/surat.html')));
 
+app.get('/fast/kk-realistic', (req,res) => res.sendFile(path.join(__dirname,'public/kk-realistic.html')));
+app.get('/fast/warga-realistic', (req,res) => res.sendFile(path.join(__dirname,'public/warga-realistic.html')));
 app.get('/health', (req, res) => res.json({ ok: true, app: 'SIDUS Dusun 02 Upgrade v2' }));
 
 const pages = [

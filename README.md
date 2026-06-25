@@ -151,3 +151,10 @@ Perbaikan nyata:
 
 Catatan:
 OCR foto KK sangat tergantung kualitas foto. Sistem sengaja wajib preview dan edit sebelum simpan.
+
+## Upgrade v11 REALISTIC
+- Halaman baru: /fast/kk-realistic dan /fast/warga-realistic
+- OCR KK dibuat realistis: scan -> preview -> edit -> simpan
+- Ada confidence OCR dan raw text OCR
+- Ada mode input manual jika OCR gagal
+- Dashboard Kadus/RT diarahkan ke halaman realistis

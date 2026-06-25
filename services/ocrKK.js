@@ -1,73 +1,58 @@
 const Tesseract = require('tesseract.js');
 
 function cleanLine(s) {
-  return (s || '')
-    .replace(/[|]/g, ' ')
-    .replace(/\s+/g, ' ')
-    .replace(/^\d+\s+/, '')
-    .trim();
+  return (s || '').replace(/[|_[\]{}]/g, ' ').replace(/\s+/g, ' ').trim();
 }
-
 function normalizeDate(text) {
-  if (!text) return '';
-  const m = text.match(/(\d{1,2})[-\/.\s](\d{1,2})[-\/.\s](\d{4})/);
+  const m = (text || '').match(/(\d{1,2})[-\/.\s](\d{1,2})[-\/.\s](\d{4})/);
   if (!m) return '';
-  const d = String(m[1]).padStart(2, '0');
-  const mo = String(m[2]).padStart(2, '0');
-  return `${m[3]}-${mo}-${d}`;
+  return `${m[3]}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`;
 }
-
-function parseGender(s){
-  if(/LAKI|L\b/i.test(s)) return 'Laki-laki';
-  if(/PEREMPUAN| P /i.test(' '+s+' ')) return 'Perempuan';
+function parseGender(s) {
+  const t = ' ' + (s || '').toUpperCase() + ' ';
+  if (t.includes('LAKI')) return 'Laki-laki';
+  if (t.includes('PEREMPUAN')) return 'Perempuan';
   return '';
 }
-
 function parseKKText(rawText) {
   const lines = rawText.split(/\r?\n/).map(cleanLine).filter(Boolean);
   const joined = lines.join('\n');
+  const nums = [...new Set([...joined.matchAll(/\b(\d{16})\b/g)].map(m => m[1]))];
 
-  let no_kk = '';
-  const kkMatches = [...joined.matchAll(/\b(\d{16})\b/g)].map(m=>m[1]);
-  if (kkMatches.length) no_kk = kkMatches[0];
-
-  let alamat = '';
-  const alamatLine = lines.find(l => /^ALAMAT/i.test(l));
-  if (alamatLine) alamat = alamatLine.replace(/^ALAMAT\s*[:\-]?\s*/i, '');
-
-  let rt = '';
-  const rtMatch = joined.match(/RT\s*[:\/\s]?\s*(\d{1,3})/i);
-  if (rtMatch) rt = rtMatch[1].padStart(2, '0');
+  const no_kk = nums[0] || '';
+  const alamatLine = lines.find(x => /^ALAMAT/i.test(x));
+  const alamat = alamatLine ? alamatLine.replace(/^ALAMAT\s*[:.\-]?\s*/i, '') : '';
+  const rtMatch = joined.match(/\bRT\s*[:.\-/ ]?\s*(\d{1,3})\b/i);
+  const rt = rtMatch ? rtMatch[1].padStart(2, '0') : '';
 
   const anggota = [];
-  for (let i=1; i<kkMatches.length; i++){
-    const nik = kkMatches[i];
+  for (let i = 1; i < nums.length; i++) {
+    const nik = nums[i];
     const idx = joined.indexOf(nik);
-    const around = joined.slice(Math.max(0,idx-160), Math.min(joined.length,idx+260)).replace(/\n/g,' ');
-    const before = joined.slice(Math.max(0,idx-120), idx).replace(/\n/g,' ');
+    const before = joined.slice(Math.max(0, idx - 130), idx).replace(/\n/g, ' ');
+    const around = joined.slice(Math.max(0, idx - 100), Math.min(joined.length, idx + 260)).replace(/\n/g, ' ');
     let nama = before
-      .replace(/\b(NO|NIK|NAMA|JENIS|KELAMIN|TEMPAT|LAHIR|AGAMA|PENDIDIKAN|PEKERJAAN)\b/ig,' ')
-      .replace(/\d+/g,' ')
-      .replace(/\s+/g,' ')
+      .replace(/\b(NO|NIK|NAMA|JENIS|KELAMIN|TEMPAT|LAHIR|AGAMA|PENDIDIKAN|PEKERJAAN|STATUS|HUBUNGAN|KELUARGA)\b/ig, ' ')
+      .replace(/\d+/g, ' ')
+      .replace(/[^A-Za-z .']/g, ' ')
+      .replace(/\s+/g, ' ')
       .trim()
       .split(' ')
+      .filter(w => w.length > 1)
       .slice(-4)
       .join(' ');
-    if(nama.length < 3) nama = '';
 
-    const tanggal_lahir = normalizeDate(around);
     anggota.push({
       nik,
       nama,
       jenis_kelamin: parseGender(around),
       tempat_lahir: '',
-      tanggal_lahir,
+      tanggal_lahir: normalizeDate(around),
       agama: '',
       pendidikan: '',
       pekerjaan: '',
       status_perkawinan: '',
-      hubungan_keluarga: i===1 ? 'Kepala Keluarga' : '',
-      kewarganegaraan: 'WNI'
+      hubungan_keluarga: i === 1 ? 'Kepala Keluarga' : ''
     });
   }
 
@@ -77,15 +62,14 @@ function parseKKText(rawText) {
     alamat,
     rt,
     anggota,
-    raw_text: rawText
+    raw_text: rawText,
+    confidence_note: 'OCR hanya bantuan. Wajib koreksi manual sebelum simpan.'
   };
 }
-
 async function scanKK(imagePath) {
-  const result = await Tesseract.recognize(imagePath, 'ind+eng', {
-    logger: () => {}
-  });
-  return parseKKText(result.data.text || '');
+  const result = await Tesseract.recognize(imagePath, 'ind+eng', { logger: () => {} });
+  const parsed = parseKKText(result.data.text || '');
+  parsed.confidence = Math.round(result.data.confidence || 0);
+  return parsed;
 }
-
 module.exports = { scanKK, parseKKText };

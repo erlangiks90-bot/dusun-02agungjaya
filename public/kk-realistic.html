@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scan KK Realistis</title><link rel="stylesheet" href="/css/fast.css"></head>
+<body>
+<header class="top"><div><h1>Scan KK Realistis</h1><p id="userText">Memuat...</p></div><button class="btn gray" onclick="location.href=dashUrl(USER)">Dashboard</button></header>
+<main class="wrap">
+<section class="panel">
+<h3>Alur OCR KK</h3>
+<div class="step"><b>1</b><span>Foto/scan KK yang jelas dan lurus.</span></div>
+<div class="step"><b>2</b><span>OCR membaca teks sebagai bantuan awal.</span></div>
+<div class="step"><b>3</b><span>RT/Kadus wajib koreksi hasil OCR.</span></div>
+<div class="step"><b>4</b><span>Simpan ke Data KK dan Data Warga.</span></div>
+<div class="warn">OCR tidak dijamin 100% akurat. Foto buram/miring/gelap wajib diperbaiki manual.</div>
+</section>
+
+<section class="panel ocr-box">
+<h3>Upload / Scanner Foto KK</h3>
+<p class="fast-note">Di HP akan membuka kamera belakang jika didukung browser.</p>
+<input id="fotoKK" type="file" accept="image/*" capture="environment" onchange="previewFoto()">
+<img id="imgPreview" class="preview-img hide">
+<button class="btn" onclick="scanKK()">Scan OCR</button>
+<button class="btn blue" onclick="manualMode()">Input Manual</button>
+<p id="ocrMsg"></p>
+</section>
+
+<section id="preview" class="panel hide">
+<h3>Preview & Edit Hasil OCR</h3>
+<div id="confidenceBox" class="warn"></div>
+<div class="row"><input id="no_kk" placeholder="No KK"><input id="kepala_keluarga" placeholder="Kepala Keluarga"></div>
+<input id="alamat" placeholder="Alamat">
+<select id="rt"><option value="06">RT 06</option><option value="07">RT 07</option><option value="08">RT 08</option></select>
+<h3>Anggota Keluarga</h3>
+<div id="anggotaBox"></div>
+<button class="btn blue" onclick="tambahAnggota()">+ Tambah Anggota</button>
+<button class="btn" onclick="simpanKeWarga()">Simpan KK & Warga</button>
+<details><summary>Lihat teks mentah OCR</summary><div id="rawText" class="raw-box"></div></details>
+</section>
+</main>
+<script src="/js/fast-common.js"></script><script src="/js/ocr-kk-realistic.js"></script>
+</body></html>
